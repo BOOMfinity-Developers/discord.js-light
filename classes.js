@@ -25,12 +25,11 @@ Discord.Structures.extend("Message", M => {
 				if(!["author","member","mentions","mention_roles"].includes(i)) { d[i] = data[i]; }
 			}
 			super._patch(d);
-			this.author = data.author ? this.client.users.add(data.author, this.client.users.cache.has(data.author.id)) : null;
+			this.author = data.author ? this.client.users.add(data.author, this.client.options.fetchAllMembers || this.client.users.cache.has(data.author.id)) : null;
 			if(data.member && this.guild && this.author) {
-				if(this.guild.members.cache.has(this.author.id)) {
-					this.member._patch(data.member);
-				} else {
-					this._member = this.guild.members.add(Object.assign(data.member,{user:this.author}),false);
+				let member = this.guild.members.add(Object.assign(data.member,{user:this.author}), this.client.options.fetchAllMembers || this.client.users.cache.has(data.author.id));
+				if(!this.guild.members.cache.has(this.author.id)) {
+					this._member = member;
 				}
 			}
 			this.mentions = new Discord.MessageMentions(this,null,null, data.mention_everyone, data.mention_channels);
@@ -60,7 +59,9 @@ Discord.Structures.extend("Message", M => {
 		}
 		get member() {
 			if(!this.guild) { return null; }
-			return this.guild.members.cache.get((this.author || {}).id || (this._member || {}).id) || this._member || null;
+			let id = (this.author || {}).id || (this._member || {}).id;
+			if(!id) { return null; }
+			return this.guild.members.cache.get(id) || this._member || this.guild.members.add({user:{id}},false);
 		}
 		get pinnable() {
 			if(this.type !== Discord.Constants.MessageTypes[0]) { return false; }
@@ -80,9 +81,6 @@ Discord.Structures.extend("Message", M => {
 
 Discord.Structures.extend("GuildMember", G => {
 	return class GuildMember extends G {
-		get user() {
-			return this.client.users.cache.get(this._user.id) || this._user;
-		}
 		_patch(data) {
 			let d = {};
 			for(let i in data) {
@@ -90,12 +88,21 @@ Discord.Structures.extend("GuildMember", G => {
 			}
 			super._patch(d);
 			if(data.user) {
-				if(data.user.member) { delete data.user.member; }
-				this._user = this.client.users.add(data.user, data._cache || this.client.users.cache.has(data.user.id));
+				this._userID = data.user.id;
+				if(data.user.username) {
+					let user = this.client.users.add(data.user, data._cache || this.client.options.fetchAllMembers || this.client.users.cache.has(data.user.id));
+					if(!this.client.users.cache.has(user.id)) {
+						this._user = user;
+					}
+				}
 			}
 		}
 		equals(member) {
 			return member && this.deleted === member.deleted && this.nickname === member.nickname && this._roles.length === member._roles.length;
+		}
+		get user() {
+			if(!this._userID) { return null; }
+			return this.client.users.cache.get(this._userID) || this._user || this.client.users.add({id:this._userID}, false);
 		}
 	}
 });
@@ -113,7 +120,7 @@ Discord.Structures.extend("Guild", G => {
 			}
 			super._patch(d);
 			if(Array.isArray(data.channels)) {
-				if(this.client.options.cacheChannels) { this.channels.cache.clear(); }
+				if(this.client.options.cacheChannels && data.channels.length) { this.channels.cache.clear(); }
 				for(let channel of data.channels) {
 					if(this.client.options.cacheChannels || this.client.channels.cache.has(channel.id)) {
 						this.client.channels.add(channel, this);
@@ -176,14 +183,14 @@ Discord.Structures.extend("Guild", G => {
 			if(!id) { throw new Error("FETCH_BAN_RESOLVE_ID"); }
 			return this.client.api.guilds(this.id).bans(id).get().then(ban => ({
 				reason: ban.reason,
-				user: this.client.users.add(ban.user, this.client.users.cache.has(ban.user.id))
+				user: this.client.users.add(ban.user, this.client.options.fetchAllMembers || this.client.users.cache.has(ban.user.id))
 			}));
 		}
 		fetchBans() {
 			return this.client.api.guilds(this.id).bans.get().then(bans => bans.reduce((collection, ban) => {
 				collection.set(ban.user.id, {
 					reason: ban.reason,
-					user: this.client.users.add(ban.user, this.client.users.cache.has(ban.user.id))
+					user: this.client.users.add(ban.user, this.client.options.fetchAllMembers || this.client.users.cache.has(ban.user.id))
 				});
 				return collection;
 			}, new Discord.Collection()));
@@ -294,10 +301,11 @@ Discord.Structures.extend("Presence", P => {
 			}
 		}
 		get user() {
-			return this.client.users.cache.get(this.userID) || this.client.users.add((this.member || {}).user || {id:this.userID}, false);
+			return this.client.users.cache.get(this.userID) || this.client.users.add((this._member || {}).user || {id:this.userID}, false);
 		}
 		get member() {
-			return this.guild ? (this.guild.members.cache.get(this.id) || this.guild.members.add(this._member, false)) : null;
+			if(!this.guild) { return null; }
+			return this.guild.members.cache.get(this.userID) || this.guild.members.add(this._member || {user:{id:this.userID}}, false);
 		}
 	}
 });
