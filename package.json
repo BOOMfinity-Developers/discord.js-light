@@ -1,6 +1,6 @@
 {
 	"name": "discord.js-light",
-	"version": "3.2.11",
+	"version": "3.3.3",
 	"description": "All the power of discord.js, zero caching. This library modifies discord.js's internal classes and functions in order to give you full control over its caching behaviour.",
 	"main": "client.js",
 	"typings": "./client.d.ts",
@@ -22,7 +22,7 @@
 	"author": "Timotej Valentin Rojko",
 	"license": "Apache-2.0",
 	"dependencies": {
-		"discord.js": "12.3.1"
+		"discord.js": "12.4.1"
 	},
 	"engines": {
 		"node": ">=12.0.0"

@@ -51,7 +51,7 @@ Optional packages (recommended to reduce bandwidth usage and improve websocket p
 ```bash
 npm install zlib-sync
 npm install bufferutil
-npm install discordapp/erlpack
+npm install discord/erlpack
 npm install utf-8-validate
 ```
 
@@ -119,7 +119,7 @@ PermissionOverwrites may have a moderate impact on memory usage when channels ar
 
 ### Roles
 
-Roles may have a moderate memory footprint but are required for general permission checking. You can still access Member Roles without enabling this cache, but they will be partials instead, which only contain an ID and nothing else. Roles can also be fecthed when needed.
+Roles may have a moderate memory footprint but are required for general permission checking. You can still access Member Roles without enabling this cache, but they will be partials instead, which only contain an ID and nothing else. Roles can also be fetched when needed.
 
 ### Emojis
 
@@ -265,14 +265,14 @@ Fetches channels from the `/guilds/:id/channels` endpoint. This endpoint bypasse
 
 **`returns`** - `Promise (GuildMember | Collection of GuildMembers)`
 
-Fetches guild members from the gateway or from the `/guilds/:id/members` endpoint. This method is identical to the original but includes a few additional options. The `rest` option allows fetching multiple/all members without the `GUILD_MEMBERS` intent, however it is very slow (roughly 8 seconds per 1000 members).
+Fetches guild members from the gateway or from the `/guilds/:id/members` endpoint. This method is identical to the original but includes a few additional options.
 
 * **`id or options.user (string)`** - id of the member to fetch. if not provided, fetches all guild members instead.
 * **`id or options.user (array)`** - array of member ids to fetch (gateway only, requires the `GUILD_MEMBERS` intent).
 * **`cache or options.cache (boolean)`** - whether to cache all results. defaults to true.
 * **`options.rest (boolean)`** - whether to use the rest endpoint instead of the gateway. defaults to true when fetching a single id, otherwise defaults to false.
 * **`options.query (string)`** - query to search for members by username (gateway only). set to `""` for all members (setting to `""` requires the `GUILD_MEMBERS` intent). defaults to `""`;
-* **`options.limit (number)`** - max amount of results (0 for no limit. setting to 0 without the `rest` option requires the `GUILD_MEMBERS` intent). defaults to 0.
+* **`options.limit (number)`** - max amount of results (0 for no limit. setting to 0 requires the `GUILD_MEMBERS` intent). defaults to 0.
 * **`options.after (string)`** - a user id to search only users with a bigger id (rest only).
 * **`options.withPresences (boolean)`** - whether to include presence data (gateway only, requires the `GUILD_PRESENCES` intent). this option also requires the `cachePresences` client option to be enabled, or that the `cache` option is enabled, or that the relevant users are already cached.
 * **`options.time (number)`** - max amount of time to wait for a response in milliseconds (gateway only). defaults to 60000.
@@ -447,5 +447,15 @@ You can also find me in [discord](https://discord.gg/BpeedKh) (Tim#2373)
 [T_Music_Bot](https://top.gg/bot/421978090823090186)
 
 [CalcBot](https://top.gg/bot/674457690646249472)
+
+[Infinity](https://top.gg/bot/545926934886875139)
+
+[Skyndalex](https://top.gg/bot/707650198305767434)
+
+[Scathach](https://discord.bots.gg/bots/724047481561809007)
+
+[Guess the Music](https://top.gg/bot/723472531788660757)
+
+[Music Boat](https://topcord.xyz/bot/735963752259911752)
 
 (using discord.js-light? let me know if you're interested in having your bot listed here)

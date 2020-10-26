@@ -291,7 +291,7 @@ Discord.Structures.extend("Presence", P => {
 	return class Presence extends P {
 		patch(data) {
 			super.patch(data);
-			if(!this.guild.members.cache.has(data.user.id)) {
+			if(this.guild && !this.guild.members.cache.has(data.user.id)) {
 				this._member = {
 					user: data.user,
 					roles: data.roles,
@@ -299,6 +299,7 @@ Discord.Structures.extend("Presence", P => {
 					premium_since: data.premium_since
 				}
 			}
+			return this;
 		}
 		get user() {
 			return this.client.users.cache.get(this.userID) || this.client.users.add((this._member || {}).user || {id:this.userID}, false);
@@ -576,7 +577,7 @@ Discord.GuildMemberManager.prototype.fetch = async function(id, cache) {
 		let { query, time = 60000, withPresences:presences = false } = options;
 		let user_ids = typeof options.user === "string" ? options.user : (Array.isArray(options.user) ? options.user : void 0);
 		let limit = Number.isInteger(options.limit) ? options.limit : 0;
-		let nonce = Date.now().toString(16) + Math.round(Math.random() * 1000000000).toString();
+		let nonce = Discord.Snowflake.generate();
 		if(nonce.length > 32) {
 			j(new RangeError("MEMBER_FETCH_NONCE_LENGTH"));
 			return;
