@@ -61,7 +61,7 @@ Discord.Structures.extend("Message", M => {
 			if(!this.guild) { return null; }
 			let id = (this.author || {}).id || (this._member || {}).id;
 			if(!id) { return null; }
-			return this.guild.members.cache.get(id) || this._member || this.guild.members.add({user:{id}},false);
+			return this.guild.members.cache.get(id) || this._member || null;
 		}
 		get pinnable() {
 			if(this.type !== Discord.Constants.MessageTypes[0]) { return false; }
@@ -392,15 +392,15 @@ Discord.GuildManager.prototype.fetch = async function(id, cache) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.id = id.id
 	} else {
 		switch(typeof id) {
-			case "string": options.id = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+		case "string": options.id = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.cache === "undefined") { options.cache = true; }
@@ -456,15 +456,15 @@ Discord.ChannelManager.prototype.fetch = async function(id, cache, force) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.id = id.id
 	} else {
 		switch(typeof id) {
-			case "string": options.id = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+		case "string": options.id = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.cache === "undefined") { options.cache = true; }
@@ -487,15 +487,15 @@ Discord.GuildChannelManager.prototype.fetch = async function(id, cache) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.id = id.id
 	} else {
-		switch(typeof id) {
-			case "string": options.id = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+	switch(typeof id) {
+		case "string": options.id = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.cache === "undefined") { options.cache = true; }
@@ -526,7 +526,7 @@ Discord.GuildChannelManager.prototype.fetch = async function(id, cache) {
 	return collection;
 }
 
-Discord.GuildChannelManager.prototype.forge = function(id,type) {
+Discord.GuildChannelManager.prototype.forge = function(id,type = "text") {
 	return this.client.channels.add({id,type:Discord.Constants.ChannelTypes[type.toUpperCase()]},this.guild,false);
 }
 
@@ -539,15 +539,15 @@ Discord.GuildMemberManager.prototype.fetch = async function(id, cache) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.user = id.id
 	} else {
-		switch(typeof id) {
-			case "string": options.user = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+	switch(typeof id) {
+		case "string": options.user = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.user === "string" && typeof options.rest === "undefined") { options.rest = true; }
@@ -680,15 +680,15 @@ Discord.GuildEmojiManager.prototype.fetch = async function(id, cache) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.id = id.id
 	} else {
-		switch(typeof id) {
-			case "string": options.id = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+	switch(typeof id) {
+		case "string": options.id = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.cache === "undefined") { options.cache = true; }
@@ -720,15 +720,15 @@ Discord.RoleManager.prototype.fetch = async function(id, cache) {
 	let options = {};
 	switch(typeof cache) {
 		case "boolean": options.cache = cache; break;
-		case "object": options = cache; break;
+		case "object": options = cache || {}; break;
 	}
 	if(id?.id) {
 		options.id = id.id
 	} else {
-		switch(typeof id) {
-			case "string": options.id = id; break;
-			case "boolean": options.cache = id; break;
-			case "object": options = id; break;
+	switch(typeof id) {
+		case "string": options.id = id; break;
+		case "boolean": options.cache = id; break;
+		case "object": options = id || {}; break;
 		}
 	}
 	if(typeof options.cache === "undefined") { options.cache = true; }
