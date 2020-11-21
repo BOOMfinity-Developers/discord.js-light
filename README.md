@@ -9,7 +9,6 @@ This library modifies discord.js's internal classes and functions in order to gi
 [![npm (prod) dependency version](https://img.shields.io/npm/dependency-version/discord.js-light/discord.js)](https://discord.js.org)
 [![node](https://img.shields.io/node/v/discord.js-light)](https://nodejs.org)
 [![Discord](https://img.shields.io/discord/581072557512458241?label=support%20server)](https://discord.gg/BpeedKh)
-[![Patreon](https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fshieldsio-patreon.herokuapp.com%2Ftimotejroiko&label=support%20me%20on%20patreon)](https://www.patreon.com/timotejroiko)
 
 ## Why?
 
@@ -139,7 +138,7 @@ Voice States will be cached if the `GUILD_VOICE_STATES` intent is enabled (requi
 
 ### Messages
 
-Messages are cached only if the Channel they belong to is cached. Message caching can further be controlled via discord.js's `messageCacheMaxSize`, `messageCacheLifetime` and `messageSweepInterval` client options as usual. Additionally, the MessageEdits cache only contains the most recent edit and each new edit will replace the last.
+Messages are cached only if the Channel they belong to is cached. Message caching can further be controlled via discord.js's `messageCacheMaxSize`, `messageCacheLifetime` and `messageSweepInterval` client options as usual. Additionally, the `messageEditHistoryMaxSize` client option is set to `1` by default (instead of infinity).
 
 ## Events
 
@@ -327,7 +326,7 @@ Fetches users from the `/channels/:id/messages/:id/reactions/:emoji`. This endpo
 
 ## Forge Methods
 
-Forge methods a set of non-standard methods used to interact with the Discord API without requiring a cache. They provide a way to create Partial instances on demand, which is especially useful when sharding. For example, sending a message to a specific channel ID:
+Forge methods are a set of non-standard methods used to interact with the Discord API without requiring a cache. They provide a way to create Partial instances on demand, which is especially useful when sharding. For example, sending a message to a specific channel ID:
 
 ```js
 // fetch method, requires an API round trip if channel is not available
@@ -457,5 +456,7 @@ You can also find me in [discord](https://discord.gg/BpeedKh) (Tim#2373)
 [Guess the Music](https://top.gg/bot/723472531788660757)
 
 [Music Boat](https://topcord.xyz/bot/735963752259911752)
+
+[Melody](https://melodybot.tk/)
 
 (using discord.js-light? let me know if you're interested in having your bot listed here)
