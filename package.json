@@ -22,7 +22,7 @@
 	"author": "Timotej Valentin Rojko",
 	"license": "Apache-2.0",
 	"dependencies": {
-		"discord.js": "git+https://github.com/BOOMfinity-Developers/discord.js"
+		"discord.js": "12.5.1"
 	},
 	"engines": {
 		"node": ">=12.0.0"
