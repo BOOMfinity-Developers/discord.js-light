@@ -41,7 +41,7 @@ More and more projects are being developed with such flexibility in mind, such a
 
 ## Usage
 
-### Installation:
+### Installation
 
 ```npm install discord.js-light```
 
@@ -56,27 +56,27 @@ npm install utf-8-validate
 
 Additionally, using an alternative memory allocator such as [jemalloc](http://jemalloc.net/) can further reduce memory usage by avoiding fragmentation in exchange for slightly higher cpu usage.
 
-### Usage example:
+### Usage example
 
 ```js
 const Discord = require("discord.js-light");
 const client = new Discord.Client({
-	cacheGuilds: true,
-	cacheChannels: false,
-	cacheOverwrites: false,
-	cacheRoles: false,
-	cacheEmojis: false,
-	cachePresences: false
+    cacheGuilds: true,
+    cacheChannels: false,
+    cacheOverwrites: false,
+    cacheRoles: false,
+    cacheEmojis: false,
+    cachePresences: false
 });
 
 client.on("ready", () => {
-	console.log("client ready");
+    console.log("client ready");
 });
 
 client.on("message", message => {
-	if(message.content === "?!ping") {
-		message.reply("pong");
-	}
+    if(message.content === "?!ping") {
+        message.reply("pong");
+    }
 });
 
 client.login("TOKEN").catch(console.error);
@@ -185,7 +185,7 @@ Events that emit past versions of a structure, such as update and delete events,
 | voiceStateUpdate | VoiceState?,  VoiceState? | NULL when data does not include a Channel ID (indicates disconnection). Includes some User and Member data |
 | webhookUpdate | Channel | Partial Channel if not cached |
 | shardConnect | Number,  Collection | Non-standard event. Emitted when a shard connects to Discord. Provides a Shard ID and a Collection of Partial Guilds assigned to this shard |
-| rest | Object | Non-standard event. Emitted when the library makes an API request to Discord. Provides an object containing the request method, path and a response buffer |
+| rest | Object | Non-standard event. Emitted when the library makes an API request to Discord. Provides an object containing the request method, path and optionally a response buffer (buffer is only included if the client option restEventIncludeBuffer is set to true) |
 
 Events that include some User and/or Member data will contain full or mostly full User and/or Member objects even if not cached, for example `message.author` will always contain a full User object, including most of its properties, even if said user is not cached.
 
@@ -335,8 +335,8 @@ await channel.send("message");
 
 // using broadcastEval if channel is available in another shard
 await client.broadcastEval(`
-	let channel = client.channels.cache.get("${id}");
-	if(channel) { channel.send("message"); }
+    let channel = client.channels.cache.get("${id}");
+    if(channel) { channel.send("message"); }
 `);
 
 // forge method, works from any shard and regardless of caching
