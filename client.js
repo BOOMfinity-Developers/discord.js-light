@@ -40,6 +40,4 @@ Discord.Client = class Client extends Discord.Client {
 	}
 };
 
-Discord.version = `${pkg.version} (${Discord.version})`;
-
 module.exports = Discord;
