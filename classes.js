@@ -81,6 +81,20 @@ Discord.Structures.extend("Message", M => {
 			if((!this.client.options.cacheRoles && !this.guild.roles.cache.size) || (!this.client.options.cacheOverwrites && !this.channel.permissionOverwrites.size)) { return false; }
 			return this.channel.viewable &&	this.channel.permissionsFor(this.client.user).has(Discord.Permissions.FLAGS.SEND_MESSAGES) && (this.author.id === this.client.user.id || this.channel.permissionsFor(this.client.user).has(Discord.Permissions.FLAGS.MANAGE_MESSAGES));
 		}
+		async delete(options) {
+			if (typeof options !== 'object') return Promise.reject(new TypeError('INVALID_TYPE', 'options', 'object', true));
+			const { timeout = 0 } = options;
+			if (timeout <= 0) {
+				return this.channel.messages.delete(this.id).then(() => this);
+			} else {
+				return new Promise(resolve => {
+					this.client.setTimeout(() => {
+						if(this.deleted) return;
+						resolve(this.delete());
+					}, timeout);
+				});
+			}
+		}
 	};
 });
 
