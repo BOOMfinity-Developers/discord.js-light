@@ -26,12 +26,12 @@
 	},
 	"license": "Apache-2.0",
 	"dependencies": {
-		"discord.js": "github:BOOMfinity-Developers/discord.js#c2749bb4b5ef08c49dfdad457dbe0e582fb36973"
+		"discord.js": "github:discordjs/discord.js#d744e51c1bdb4c7a26c0faeea1f2f45baaf5fd3c"
 	},
 	"engines": {
 		"node": ">=14.0.0"
 	},
 	"devDependencies": {
-		"eslint": "^7.16.0"
+		"eslint": "^7.21.0"
 	}
 }
