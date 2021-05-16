@@ -439,7 +439,7 @@ module.exports = client => {
 		reaction.me = data.user_id === c.user.id;
 		if(channel.messages.cache.has(message.id)) {
 			reaction.users.cache.set(user.id, user);
-			reaction.count = reaction.users.cache.size;
+			reaction.count++;
 		}
 		return {
 			message,
@@ -467,7 +467,7 @@ module.exports = client => {
 		reaction.me = data.user_id === c.user.id;
 		if(channel.messages.cache.has(message.id)) {
 			reaction.users.cache.delete(user.id);
-			reaction.count = reaction.users.cache.size;
+			reaction.count--;
 			if(reaction.count === 0) { message.reactions.cache.delete(data.emoji.id || data.emoji.name); }
 		}
 		return {
