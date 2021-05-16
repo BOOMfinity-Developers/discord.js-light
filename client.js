@@ -88,6 +88,6 @@ Discord.Client = class Client extends Discord.Client {
 	}
 };
 
-Discord.version = `${pkg.version} (${Discord.version})`;
+Discord.version = `${Discord.version} (djs-light)`;
 
 module.exports = Discord;
